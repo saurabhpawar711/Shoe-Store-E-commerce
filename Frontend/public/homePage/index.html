@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Shoe Store</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+
+    <nav class="navbar">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">Shoe Store</a>
+            </div>
+            <div class="collapse navbar-collapse" id="myNavbar">
+                <ul class="nav navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="#">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Features</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Pricing</a>
+                    </li>
+                </ul>
+
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <form style="display: flex; margin-top: 8px; margin-right: 10px;">
+                            <input class="form-control" type="text" style="margin: 0 5px;" placeholder="Search">
+                            <button class="btn btn-primary" type="button">Search</button>
+                        </form>
+                    </li>
+                    <li><a href="#" class="wishlist"><i class="fa-regular fa-heart"></i></a></li>
+                    <li><a href="#" class="cart"><i class="fa-solid fa-cart-shopping"></i></a></li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle user" href="#" role="button" data-bs-toggle="dropdown"><i
+                                class="fa-regular fa-user"></i></a>
+                        <ul class="dropdown-menu" style="border-radius: 10px;">
+                            <li>
+                                <p class="dropdown-header" style="padding: 5px 20px; font-size: larger;">Welcome</p>
+                            </li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <script>
+                                const token = localStorage.getItem('token');
+                                if (token) {
+                                    document.write('<li><a class="dropdown-item" href="#">Profile</a></li>');
+                                    document.write('<li><a class="dropdown-item" href="#">Logout</a></li>');
+                                } else {
+                                    document.write('<li><a class="dropdown-item signUp" href="#">Signup/Login</a></li>');
+                                }
+                            </script>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="#">Orders</a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="#">Cart</a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="modal" id="signupModal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('signupModal')">&times;</span>
+            <h2>Sign Up or Login</h2>
+            <form id="signupForm">
+                <input type="tel" id="number" name="number" placeholder="Mobile Number" pattern="[0-9]{10}"
+                    maxlength="10" minlength="10" required>
+                <input class="otp" type="text" id="otp" maxlength="4" placeholder="Enter 4-digit OTP" style="display: none;" />
+                <button type="button" class="continueBtn" onclick="toggleInputs()" value="Continue"
+                    style="display: block;">Continue</button>
+                <button type="button" class="loginBtn" onclick="login()" value="Continue"
+                    style="display: none;">Verify</button>
+            </form>
+        </div>
+    </div>
+
+    <h2 style="text-align:center; color: white;">Product Card</h2>
+
+    <div class="products">
+        <div class="product-card">
+            <img src="//assets.myntassets.com/dpr_1.5,q_60,w_400,c_limit,fl_progressive/assets/images/25841290/2023/11/10/904965cc-764d-46d7-92c7-f20a3f5e98971699605661861PumaBadmintonSmashSprintUnisexIndoorShoes1.jpg"
+                alt="">
+            <h4>Product Name</h4>
+            <div>
+                <span>$299</span>
+                <button>+</button>
+            </div>
+        </div>
+        <div class="product-card">
+            <img src="//assets.myntassets.com/dpr_1.5,q_60,w_400,c_limit,fl_progressive/assets/images/25841290/2023/11/10/904965cc-764d-46d7-92c7-f20a3f5e98971699605661861PumaBadmintonSmashSprintUnisexIndoorShoes1.jpg"
+                alt="">
+            <h4>Product Name</h4>
+            <div>
+                <span>$299</span>
+                <button>+</button>
+            </div>
+        </div>
+        <div class="product-card">
+            <img src="//assets.myntassets.com/dpr_1.5,q_60,w_400,c_limit,fl_progressive/assets/images/25841290/2023/11/10/904965cc-764d-46d7-92c7-f20a3f5e98971699605661861PumaBadmintonSmashSprintUnisexIndoorShoes1.jpg"
+                alt="">
+            <h4>Product Name</h4>
+            <div>
+                <span>$299</span>
+                <button>+</button>
+            </div>
+        </div>
+        <div class="product-card">
+            <img src="//assets.myntassets.com/dpr_1.5,q_60,w_400,c_limit,fl_progressive/assets/images/25841290/2023/11/10/904965cc-764d-46d7-92c7-f20a3f5e98971699605661861PumaBadmintonSmashSprintUnisexIndoorShoes1.jpg"
+                alt="">
+            <h4>Product Name</h4>
+            <div>
+                <span>$299</span>
+                <button>+</button>
+            </div>
+        </div>
+        <div class="product-card">
+            <img src="//assets.myntassets.com/dpr_1.5,q_60,w_400,c_limit,fl_progressive/assets/images/25841290/2023/11/10/904965cc-764d-46d7-92c7-f20a3f5e98971699605661861PumaBadmintonSmashSprintUnisexIndoorShoes1.jpg"
+                alt="">
+            <h4>Product Name</h4>
+            <div>
+                <span>$299</span>
+                <button>+</button>
+            </div>
+        </div>
+        <div class="product-card">
+            <img src="//assets.myntassets.com/dpr_1.5,q_60,w_400,c_limit,fl_progressive/assets/images/25841290/2023/11/10/904965cc-764d-46d7-92c7-f20a3f5e98971699605661861PumaBadmintonSmashSprintUnisexIndoorShoes1.jpg"
+                alt="">
+            <h4>Product Name</h4>
+            <div>
+                <span>$299</span>
+                <button>+</button>
+            </div>
+        </div>
+        <div class="product-card">
+            <img src="//assets.myntassets.com/dpr_1.5,q_60,w_400,c_limit,fl_progressive/assets/images/25841290/2023/11/10/904965cc-764d-46d7-92c7-f20a3f5e98971699605661861PumaBadmintonSmashSprintUnisexIndoorShoes1.jpg"
+                alt="">
+            <h4>Product Name</h4>
+            <div>
+                <span>$299</span>
+                <button>+</button>
+            </div>
+        </div>
+
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.6.2/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+        crossorigin="anonymous"></script>
+    <script src="index.js"></script>
+</body>
+
+</html>
