@@ -89,7 +89,8 @@
             <form id="signupForm">
                 <input type="tel" id="number" name="number" placeholder="Mobile Number" pattern="[0-9]{10}"
                     maxlength="10" minlength="10" required>
-                <input class="otp" type="text" id="otp" maxlength="4" placeholder="Enter 4-digit OTP" style="display: none;" />
+                <input class="otp" type="text" id="otp" maxlength="4" placeholder="Enter 4-digit OTP"
+                    style="display: none;" />
                 <button type="button" class="continueBtn" onclick="toggleInputs()" value="Continue"
                     style="display: block;">Continue</button>
                 <button type="button" class="loginBtn" onclick="login()" value="Continue"
@@ -101,7 +102,7 @@
     <h2 style="text-align:center; color: white;">Product Card</h2>
 
     <div class="products">
-        <div class="product-card">
+        <!-- <div class="product-card">
             <img src="//assets.myntassets.com/dpr_1.5,q_60,w_400,c_limit,fl_progressive/assets/images/25841290/2023/11/10/904965cc-764d-46d7-92c7-f20a3f5e98971699605661861PumaBadmintonSmashSprintUnisexIndoorShoes1.jpg"
                 alt="">
             <h4>Product Name</h4>
@@ -163,8 +164,18 @@
                 <span>$299</span>
                 <button>+</button>
             </div>
-        </div>
+        </div> -->
 
+    </div>
+
+    <div style="display: flex; justify-content: center; ">
+        <div class="pagination">
+            <!-- <a href="#">&laquo;</a>
+            <a href="#">1</a>
+            <a href="#" class="active">2</a>
+            <a href="#">3</a>
+            <a href="#">&raquo;</a> -->
+        </div>
     </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.6.2/axios.min.js"></script>

@@ -12,15 +12,17 @@ app.use(cors({
 }));
 
 const userRoutes = require('./routes/userRoute');
+const productRoute = require('./routes/productRoute');
 
 app.use('/auth', userRoutes);
+app.use(productRoute);
 
 const mongoConnection = require('./database/database');
 const port = process.env.PORT;
 mongoConnection()
     .then(() => {
         app.listen(port || 3000, () => {
-            console.log('connected to Port: ', port)
-        })
+            console.log('connected to Port: ',port)
+        });
     })
     .catch(err => console.log(err));

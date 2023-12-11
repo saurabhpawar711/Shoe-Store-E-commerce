@@ -160,6 +160,31 @@ button:hover {
     cursor: pointer;
 }
 
+.pagination {
+    background: white;
+    display: flex;
+    border-radius: 10px;
+}
+
+.pagination a {
+    color: black;
+    float: left;
+    padding: 8px 16px;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.pagination a.active {
+    background-color: #4CAF50;
+    color: white;
+    border-radius: 3px;
+}
+
+.pagination a:hover:not(.active) {
+    background-color: #ddd;
+    border-radius: 5px;
+}
+
 @media screen and (max-width: 576px) {
     .product-card {
         font-size: 0.9em;
