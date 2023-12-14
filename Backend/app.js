@@ -13,9 +13,11 @@ app.use(cors({
 
 const userRoutes = require('./routes/userRoute');
 const productRoute = require('./routes/productRoute');
+const cartRoute = require('./routes/cartRoutes');
 
 app.use('/auth', userRoutes);
 app.use(productRoute);
+app.use('/cart', cartRoute);
 
 const mongoConnection = require('./database/database');
 const port = process.env.PORT;

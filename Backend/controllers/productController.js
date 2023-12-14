@@ -3,15 +3,44 @@ const Product = require('../models/Product');
 exports.getProducts = async (req, res) => {
     try {
         const page = req.query.page;
+        const search = req.query.search;
 
         const limit = 8;
         const offset = (page - 1) * limit;
 
-        const noOfProducts = await Product.countDocuments();
-        const totalPages = Math.ceil(noOfProducts/limit);
-        const productsDetails = await Product.find({}, '_id name price imageURL')
-            .skip(offset)
-            .limit(limit);
+        const regex = new RegExp(search, 'i');
+        let noOfProducts;
+        let productsDetails;
+
+        if (search) {
+            noOfProducts = await Product.countDocuments({
+                $or: [
+                    { name: regex },
+                    { brand: regex },
+                    { gender: regex },
+                    { category: regex },
+                ]
+            });
+            productsDetails = await Product.find({
+                $or: [
+                    { name: regex },
+                    { brand: regex },
+                    { gender: regex },
+                    { category: regex },
+                ]
+            },
+                '_id name price imageURL')
+                .skip(offset)
+                .limit(limit);
+        }
+        else {
+            noOfProducts = await Product.countDocuments();
+            productsDetails = await Product.find({}, '_id name price imageURL')
+                .skip(offset)
+                .limit(limit);
+        }
+
+        const totalPages = Math.ceil(noOfProducts / limit);
 
         const currentPage = Number(page);
         const hasNextPage = totalPages > currentPage;
@@ -35,9 +64,9 @@ exports.getProducts = async (req, res) => {
             previousToPreviousPage
         }
 
-        res.status(200).json({productsDetails, pageData});
+        res.status(200).json({ productsDetails, pageData });
     }
-    catch(err) {
+    catch (err) {
         console.log(err);
     }
 }

@@ -40,6 +40,30 @@ body .navbar {
     opacity: 1 !important;
 }
 
+.loader {
+    border: 8px solid #f3f3f3;
+    /* Light grey */
+    border-top: 8px solid #3498db;
+    /* Blue */
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    animation: spin 1s linear infinite;
+    margin: auto;
+    margin-top: 20%;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+
 .product-card {
     max-width: 17em;
     background-color: #fff;
@@ -164,6 +188,7 @@ button:hover {
     background: white;
     display: flex;
     border-radius: 10px;
+    max-width: 400px;
 }
 
 .pagination a {
@@ -174,10 +199,19 @@ button:hover {
     cursor: pointer;
 }
 
+.pagination p {
+    color: black;
+    float: left;
+    margin-top: 8px;
+    padding: 0 8px;
+    font-weight: 600;
+}
+
 .pagination a.active {
     background-color: #4CAF50;
     color: white;
     border-radius: 3px;
+    height: 100%;
 }
 
 .pagination a:hover:not(.active) {
