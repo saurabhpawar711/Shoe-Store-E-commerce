@@ -117,14 +117,40 @@ const login = async () => {
     }
 }
 
-const addToCart = async (product) => {
-    const token = localStorage.getItem('token');
-    const productId = product._id;
-    const productDetail = {
-        productId
+const addToWishlist = async (product) => {
+    try {
+        const token = localStorage.getItem('token');
+        const productId = product._id;
+        const productDetail = {
+            productId
+        }
+        const response = await axios.post('http://localhost:3000/wishlist/add', productDetail, { headers: { Authorization: token } });
+        toastr.success(response.data.message);
     }
-    const response = await axios.post('http://localhost:3000/cart/add', productDetail, { headers: { Authorization: token } });
-    toastr.success(response.data.message);
+    catch (err) {
+        console.log(err);
+        toastr.info(err.response.data.error);
+    }
+}
+
+const addToCart = async (product) => {
+    try {
+        const token = localStorage.getItem('token');
+        const productId = product._id;
+        const productDetail = {
+            productId
+        }
+        const response = await axios.post('http://localhost:3000/cart/add', productDetail, { headers: { Authorization: token } });
+        toastr.success(response.data.message);
+    }
+    catch(err) {
+        console.log(err);
+    }
+}
+
+const showProductDetails = (product) => {
+    const productId = product._id;
+    window.location.href = `../productPage/product.html?productid=${productId}`;
 }
 
 const showProduct = (product) => {
@@ -132,7 +158,9 @@ const showProduct = (product) => {
 
     const productCard = document.createElement('div');
     productCard.classList.add('product-card');
-    productCard.height = 300;
+    productCard.addEventListener('click', () => {
+        showProductDetails(product)
+    });
 
     const image = document.createElement('img');
     image.src = product.imageURL;
@@ -142,16 +170,35 @@ const showProduct = (product) => {
     productTitle.textContent = product.name;
 
     const subDiv = document.createElement('div');
+    subDiv.classList.add('product-details');
 
     const price = document.createElement('span');
     price.textContent = `${product.price} $`;
 
+    const buttonsDiv = document.createElement('div');
+    buttonsDiv.classList.add('buttons');
+
+    const wishlistBtn = document.createElement('button');
+    wishlistBtn.innerHTML = '<i class="fa-regular fa-heart"></i>';
+    wishlistBtn.classList.add('wishlistBtn');
+    wishlistBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        addToWishlist(product)
+    });
+
     const addToCartBtn = document.createElement('button');
     addToCartBtn.textContent = '+';
-    addToCartBtn.addEventListener('click', () => addToCart(product));
+    addToCartBtn.classList.add('addToCartBtn');
+    addToCartBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        addToCart(product)
+    });
+
+    buttonsDiv.append(wishlistBtn);
+    buttonsDiv.append(addToCartBtn);
 
     subDiv.appendChild(price);
-    subDiv.appendChild(addToCartBtn);
+    subDiv.appendChild(buttonsDiv);
 
     productCard.appendChild(image);
     productCard.appendChild(productTitle);
@@ -292,7 +339,7 @@ window.addEventListener('DOMContentLoaded', async () => {
 
     const searchInput = document.getElementById('search');
     const searchFor = searchInput.value;
-    
+
     const response = await axios.get(`http://localhost:3000/products?page=${page}&search=${searchFor}`)
     response.data.productsDetails.forEach(product => {
         showProduct(product);

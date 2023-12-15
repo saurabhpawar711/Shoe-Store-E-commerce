@@ -70,6 +70,7 @@ body .navbar {
     padding: 1em;
     font-family: Arial, Helvetica, sans-serif;
     margin: 20px 10px;
+    cursor: pointer;
 }
 
 .product-card img {
@@ -81,14 +82,23 @@ body .navbar {
     margin: 0.5em 0;
 }
 
-.product-card div {
+
+.product-details {
     font-size: 1.2em;
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
 
-.product-card button {
+.product-details span {
+    flex: 1;
+}
+
+.product-details .buttons {
+    display: flex;
+}
+
+.product-card .addToCartBtn {
     background-color: #000;
     color: #fff;
     border: none;
@@ -96,6 +106,16 @@ body .navbar {
     width: 25px;
     height: 25px;
     font-size: 1em;
+    margin-left: 5px;
+}
+
+.product-card .wishlistBtn {
+    background-color: #000;
+    color: #fff;
+    border: none;
+    border-radius: 50%;
+    font-size: 1em;
+    margin-left: 5px;
 }
 
 .product-card:hover {
@@ -103,10 +123,12 @@ body .navbar {
     color: #fff;
 }
 
-.product-card:hover button {
+.product-card button:hover {
     color: #000;
     background-color: #fff;
 }
+
+
 
 .products {
     max-width: 1200px;

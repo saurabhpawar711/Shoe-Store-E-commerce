@@ -130,13 +130,3 @@ window.addEventListener('DOMContentLoaded', async () => {
     }
 });
 
-// <div class="total">
-//     <h3>Total: $19.99</h3>
-//     <button class="checkout-btn">Checkout</button>
-// </div>
-
-
-// let total = response.data.cartDetails.map(item => {
-//     return item
-// })
-

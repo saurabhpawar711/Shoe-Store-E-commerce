@@ -4,15 +4,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Shopping Cart</title>
-    <link rel="stylesheet" href="cart.css">
+    <title>Product Details</title>
+    <link rel="stylesheet" href="product.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 </head>
 
 <body>
-
     <nav class="navbar">
         <div class="container-fluid">
             <div class="navbar-header">
@@ -80,55 +81,27 @@
         </div>
     </nav>
 
-    <header>
-        <h1>Your Shopping Cart</h1>
-    </header>
-
-    <main class="main">
-        <div class="cart">
-            <!-- <div class="cart-item">
-                <img src="https://static.nike.com/a/images/c_limit,w_592,f_auto/t_product_v1/i1-a52a8aec-22dc-4982-961b-75c5f4c72805/mercurial-superfly-7-pro-mds-fg-firm-ground-soccer-cleat-mhcpdN.jpg"
-                    alt="Product 1">
-                <div class="item-details">
-                    <h3>Product Name</h3>
-                    <p>Product Description</p>
-                    <span class="price">$19.99</span>
-                    <div class="quantity">
-                        <label for="quantity">Quantity:</label>
-                        <input type="number" id="quantity" name="quantity" value="1" min="1" style="max-width: 100px;">
-                    </div>
-                </div>
-                <button class="remove-btn">Remove</button>
-            </div> -->
-            <!-- Add more cart items as needed -->
-
-        </div>
-
-        <div class="total">
-            <!-- <h3>Total: $19.99</h3>
-            <button class="checkout-btn">Checkout</button> -->
-        </div>
-    </main>
-
-    <div class="empty-cart-container">
-        <div class="empty-cart">
-            <img src="https://www.99fashionbrands.com/wp-content/uploads/2020/12/empty_cart.png" alt="Empty Cart Image">
-            <p>Looks like you haven't added anything to your cart yet.</p>
-            <p>Explore our <a href="../homePage/index.html">products</a> and find something you like!</p>
-        </div>
+    <div class="container">
+        <!-- <img class="product-img"
+            src="https://static.nike.com/a/images/c_limit,w_592,f_auto/t_product_v1/i1-665455a5-45de-40fb-945f-c1852b82400d/react-infinity-run-flyknit-mens-running-shoe-zX42Nc.jpg"
+            alt="Product Image">
+        <div class="product-details">
+            <h2>Nike React Infinity Run Flyknit</h2>
+            <p><strong>Brand:</strong> NIKE</p>
+            <p><strong>Gender:</strong> MEN</p>
+            <p><strong>Category:</strong> RUNNING</p>
+            <p><strong>Price:</strong> $160</p>
+            <p><strong>Items left:</strong> 3</p>
+            <p class="price">$160</p>
+            <a href="#" class="btn">Add to Cart</a>
+        </div> -->
     </div>
-
-    <footer>
-        <p>&copy; 2023 Your Store. All rights reserved.</p>
-    </footer>
-
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.6.2/axios.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
         crossorigin="anonymous"></script>
-    <script src="cart.js"></script>
-
+    <script src="product.js"></script>
 </body>
 
 </html>

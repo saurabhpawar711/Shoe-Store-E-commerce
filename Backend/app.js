@@ -4,7 +4,6 @@ require('dotenv').config();
 const bodyParser = require('body-parser');
 const cors = require('cors');
 
-// app.use(json());
 app.use(bodyParser.json());
 app.use(cors({
     "origin": "*",
@@ -14,10 +13,12 @@ app.use(cors({
 const userRoutes = require('./routes/userRoute');
 const productRoute = require('./routes/productRoute');
 const cartRoute = require('./routes/cartRoutes');
+const wishlistRoute = require('./routes/wishlistRoute');
 
 app.use('/auth', userRoutes);
-app.use(productRoute);
+app.use('/products', productRoute);
 app.use('/cart', cartRoute);
+app.use('/wishlist', wishlistRoute);
 
 const mongoConnection = require('./database/database');
 const port = process.env.PORT;

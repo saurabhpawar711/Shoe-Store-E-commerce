@@ -70,3 +70,16 @@ exports.getProducts = async (req, res) => {
         console.log(err);
     }
 }
+
+exports.getProduct = async (req, res) => {
+    try {
+        const productId = req.query.id;
+
+        const productDetails = await Product.findOne({ _id: productId });
+
+        res.status(200).json({ productDetails });
+    }
+    catch (err) {
+        console.log(err);
+    }
+}

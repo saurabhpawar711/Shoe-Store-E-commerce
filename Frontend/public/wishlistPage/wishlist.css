@@ -1,0 +1,150 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #0e1630 !important;
+}
+
+body .navbar {
+    background-color: #0e1630;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 999;
+}
+
+.navbar-brand,
+.navbar-nav li a {
+    color: #fff;
+}
+
+.navbar-nav li a:hover {
+    color: black;
+    font-weight: bold;
+    font-size: 1.2em;
+}
+
+.navabar .nav .dropdown-menu {
+    border-radius: 10px;
+    padding: 5px;
+}
+
+.dropdown-menu li a {
+    color: #000;
+}
+
+.dropdown-menu li a:hover {
+    background-color: #ddd;
+}
+
+.toast {
+    opacity: 1 !important;
+}
+
+header {
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    padding: 1em;
+}
+
+.container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 1em;
+    margin-top: 50px;
+}
+
+.product-card {
+    width: 300px;
+    background-color: #fff;
+    margin: 1em;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    overflow: hidden;
+    transition: transform 0.3s;
+}
+
+.product-card:hover {
+    transform: scale(1.05);
+}
+
+.product-card img {
+    width: 100%;
+    height: auto;
+    max-height: 200px;
+    object-fit: cover;
+}
+
+.product-details {
+    padding: 1em;
+}
+
+.product-details h4 {
+    color: #333;
+    margin-bottom: 0.5em;
+}
+
+.product-details p {
+    color: #666;
+    line-height: 1.5;
+    margin-bottom: 1em;
+}
+
+.product-details .price {
+    color: #e44d26;
+    font-size: 1.2em;
+    font-weight: bold;
+    margin-bottom: 1em;
+}
+
+.product-details .buttons {
+    display: flex;
+    justify-content: space-between;
+}
+
+.product-details .btn {
+    display: inline-block;
+    padding: 0.5em 1em;
+    background-color: #e44d26;
+    color: #fff !important;
+    text-decoration: none;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+}
+
+.product-details .btn-cancel {
+    background-color: #333;
+}
+
+.product-details .btn-cancel:hover {
+    background-color: #e44d26 !important;
+    color: white !important;
+}
+
+.product-details .btn:hover {
+    background-color: #333;
+}
+
+.wishlist-container {
+    display: none;
+    max-width: 700px;
+    text-align: center;
+    padding: 20px;
+    margin: 30px auto;
+    border: 1px solid #ddd;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.wishlist-image {
+    max-width: 100%;
+    height: auto;
+}
+
+.message {
+    font-size: 1.2em;
+    margin-top: 20px;
+}
