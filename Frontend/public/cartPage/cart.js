@@ -10,6 +10,12 @@ const removeFromScreen = (cartItemDiv) => {
     cartDiv.removeChild(cartItemDiv);
 }
 
+toastr.options = {
+    closeButton: true,
+    timeOut: 1000,
+    progressBar: true,
+};
+
 const removeFromCart = async (item, cartItemDiv) => {
     try {
         const productId = item.product._id;
@@ -85,6 +91,30 @@ const showCart = (item) => {
     cartDiv.appendChild(cartItemDiv);
 }
 
+const checkout = async (items, total) => {
+    try {
+        const token = localStorage.getItem('token');
+        let productDetails = [];
+        items.forEach(item => {
+            productDetails.push({
+                productId: item.product._id,
+                quantity: item.quantity
+            });
+        })
+
+        const productsToOrder = {
+            productDetails: productDetails,
+            total: total
+        }
+
+        await axios.post('http://localhost:3000/order/checkout/add', productsToOrder, { headers: { Authorization: token } });
+        window.location.href = '../checkoutPage/checkout.html';
+    }
+    catch (err) {
+        console.log(err);
+    }
+}
+
 const updateTotal = (cartItems) => {
 
     let total = cartItems.reduce((acc, curr) => {
@@ -101,6 +131,7 @@ const updateTotal = (cartItems) => {
     const checkoutBtn = document.createElement('button');
     checkoutBtn.textContent = 'Checkout';
     checkoutBtn.classList.add('checkout-btn');
+    checkoutBtn.addEventListener('click', () => checkout(cartItems, total));
 
     totalDiv.appendChild(totalHeading);
     totalDiv.appendChild(checkoutBtn);
@@ -130,3 +161,18 @@ window.addEventListener('DOMContentLoaded', async () => {
     }
 });
 
+const searchButton = document.getElementById('searchBtn');
+const searchInput = document.getElementById('search');
+
+searchButton.addEventListener('click', async () => {
+    const searchFor = searchInput.value;
+    window.location.href = `/homePage/index.html?page=${1}&search=${searchFor}`
+})
+
+if (token) {
+    const logoutBtn = document.getElementById('logout');
+    logoutBtn.addEventListener('click', () => {
+        localStorage.clear();
+        window.location.href = '../homePage/index.html';
+    })
+}

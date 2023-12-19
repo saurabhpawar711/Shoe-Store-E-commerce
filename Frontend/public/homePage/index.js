@@ -1,11 +1,7 @@
 
-function toggleMenu() {
-    const navMenu = document.querySelector('ul');
-    navMenu.classList.toggle('show');
-}
 
-if (!localStorage.getItem('token')) {
-    const signUpBtn = document.querySelector('.signUp');
+if (!token) {
+    const signUpBtn = document.getElementById('signUp');
 
     signUpBtn.addEventListener('click', () => {
         openModal('signupModal')
@@ -23,9 +19,9 @@ function closeModal(modalId) {
 }
 
 window.onclick = function (event) {
-    var modals = document.getElementsByClassName('modal');
-    for (var i = 0; i < modals.length; i++) {
-        var modal = modals[i];
+    const modals = document.getElementsByClassName('modal');
+    for (let i = 0; i < modals.length; i++) {
+        let modal = modals[i];
         if (event.target == modal) {
             modal.style.display = "none";
         }
@@ -34,9 +30,8 @@ window.onclick = function (event) {
 
 toastr.options = {
     closeButton: true,
-    timeOut: 2000,
+    timeOut: 1000,
     progressBar: true,
-    onclick: null,
 };
 
 document.addEventListener('DOMContentLoaded', loader)
@@ -50,14 +45,58 @@ function loader() {
     }, 500);
 };
 
+const checkAuthenticationForCart = async () => {
+    const token = localStorage.getItem('token');
+    try {
+        const response = await axios.get('http://localhost:3000/auth/check-authentication', { headers: { Authorization: token } });
+        if (response.data.success) {
+            window.location.href = '../cartPage/cart.html';
+        }
+    }
+    catch (err) {
+        if (err.response.data.error === 'Authentication required') {
+            openModal('signupModal');
+        }
+    }
+}
+
+const checkAuthenticationForOrder = async () => {
+    const token = localStorage.getItem('token');
+    try {
+        const response = await axios.get('http://localhost:3000/auth/check-authentication', { headers: { Authorization: token } });
+        if (response.data.success) {
+            window.location.href = '../ordersPage/order.html';
+        }
+    }
+    catch (err) {
+        if (err.response.data.error === 'Authentication required') {
+            openModal('signupModal');
+        }
+    }
+}
+
+const checkAuthenticationForWishlist = async () => {
+    const token = localStorage.getItem('token');
+    try {
+        const response = await axios.get('http://localhost:3000/auth/check-authentication', { headers: { Authorization: token } });
+        if (response.data.success) {
+            window.location.href = '../wishlistPage/wishlist.html';
+        }
+    }
+    catch (err) {
+        if (err.response.data.error === 'Authentication required') {
+            openModal('signupModal')
+        }
+    }
+}
 
 const user = document.querySelector('.user');
 
 user.addEventListener('click', () => {
     const token = localStorage.getItem('token');
+    const signUpBtn = document.getElementById('signUp');
     if (token) {
         signUpBtn.style.display = 'none';
-        loginBtn.style.display = 'none';
     }
 })
 
@@ -112,7 +151,7 @@ const login = async () => {
         }
     }
     catch (err) {
-        console.log(err.response.data.error);
+        console.log(err);
         toastr.error(err.response.data.error);
     }
 }
@@ -129,12 +168,16 @@ const addToWishlist = async (product) => {
     }
     catch (err) {
         console.log(err);
+        if (err.response.data.error === 'Authentication required') {
+            openModal('signupModal')
+        }
         toastr.info(err.response.data.error);
     }
 }
 
 const addToCart = async (product) => {
     try {
+        console.log(60);
         const token = localStorage.getItem('token');
         const productId = product._id;
         const productDetail = {
@@ -143,8 +186,13 @@ const addToCart = async (product) => {
         const response = await axios.post('http://localhost:3000/cart/add', productDetail, { headers: { Authorization: token } });
         toastr.success(response.data.message);
     }
-    catch(err) {
+    catch (err) {
         console.log(err);
+        if (err.response.data.error === 'Authentication required') {
+            console.log(30);
+            openModal('signupModal')
+        }
+        console.log(50);
     }
 }
 
@@ -335,12 +383,24 @@ const pagination = (pageData) => {
 
 localStorage.setItem('page', 1);
 window.addEventListener('DOMContentLoaded', async () => {
-    const page = localStorage.getItem('page');
 
-    const searchInput = document.getElementById('search');
-    const searchFor = searchInput.value;
+    const currentUrl = new URL(window.location.href);
+    const page = currentUrl.searchParams.get('page');
+    const search = currentUrl.searchParams.get('search');
 
-    const response = await axios.get(`http://localhost:3000/products?page=${page}&search=${searchFor}`)
+    let searchFor;
+    let currentPage;
+
+    if (page && search) {
+        searchFor = search;
+        currentPage = page;
+    }
+    else {
+        currentPage = localStorage.getItem('page');
+        const searchInput = document.getElementById('search');
+        searchFor = searchInput.value;
+    }
+    const response = await axios.get(`http://localhost:3000/products?page=${currentPage}&search=${searchFor}`)
     response.data.productsDetails.forEach(product => {
         showProduct(product);
     });
@@ -369,3 +429,11 @@ searchButton.addEventListener('click', async () => {
     });
     pagination(response.data.pageData);
 })
+
+if (token) {
+    const logoutBtn = document.getElementById('logout');
+    logoutBtn.addEventListener('click', () => {
+        localStorage.clear();
+        window.location.href = "index.html";
+    })
+}

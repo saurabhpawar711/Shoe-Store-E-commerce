@@ -1,6 +1,6 @@
 const { customAlphabet } = require('nanoid');
 const User = require('../models/User');
-const { SendOtp } = require('../services/OtpServices');
+const { SendOtp } = require('../services/OtpService');
 const jwt = require('jsonwebtoken');
 
 

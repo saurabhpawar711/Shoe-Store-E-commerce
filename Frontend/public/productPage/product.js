@@ -14,6 +14,22 @@ const addToCart = async (product) => {
     toastr.success(response.data.message);
 }
 
+const addToWishlist = async (product) => {
+    try {
+        const token = localStorage.getItem('token');
+        const productId = product._id;
+        const productDetail = {
+            productId
+        }
+        const response = await axios.post('http://localhost:3000/wishlist/add', productDetail, { headers: { Authorization: token } });
+        toastr.success(response.data.message);
+    }
+    catch (err) {
+        console.log(err);
+        toastr.info(err.response.data.error);
+    }
+}
+
 const showProduct = (product) => {
     const productContainer = document.querySelector('.container');
 
@@ -49,6 +65,11 @@ const showProduct = (product) => {
     addToCartBtn.textContent = 'Add to Cart';
     addToCartBtn.addEventListener('click', () => addToCart(product));
 
+    const addToWishlistBtn = document.createElement('a');
+    addToWishlistBtn.classList.add('btn');
+    addToWishlistBtn.textContent = 'Add to Wishlist';
+    addToWishlistBtn.addEventListener('click', () => addToWishlist(product));
+
     productDetailsDiv.appendChild(title);
     productDetailsDiv.appendChild(brand);
     productDetailsDiv.appendChild(category);
@@ -56,6 +77,7 @@ const showProduct = (product) => {
     productDetailsDiv.appendChild(itemsLeft);
     productDetailsDiv.appendChild(price);
     productDetailsDiv.appendChild(addToCartBtn);
+    productDetailsDiv.appendChild(addToWishlistBtn);
 
     productContainer.appendChild(image);
     productContainer.appendChild(productDetailsDiv);
@@ -75,3 +97,18 @@ window.addEventListener('DOMContentLoaded', async () => {
     }
 })
 
+const searchButton = document.getElementById('searchBtn');
+const searchInput = document.getElementById('search');
+
+searchButton.addEventListener('click', async () => {
+    const searchFor = searchInput.value;
+    window.location.href = `/homePage/index.html?page=${1}&search=${searchFor}`
+})
+
+if (token) {
+    const logoutBtn = document.getElementById('logout');
+    logoutBtn.addEventListener('click', () => {
+        localStorage.clear();
+        window.location.href = '../homePage/index.html';
+    })
+}

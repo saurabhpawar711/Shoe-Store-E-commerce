@@ -1,8 +1,7 @@
 body {
-    font-family: 'Arial', sans-serif;
+    font-family: sans-serif;
     margin: 0;
-    padding: 0;
-    background-color: #0e1630 !important;
+    background: #0e1630 !important;
 }
 
 body .navbar {
@@ -85,68 +84,63 @@ body .navbar {
     opacity: 1 !important;
 }
 
+header {
+    text-align: center;
+    color: #fff;
+}
+
 .container {
-    display: flex;
-    max-width: 1200px;
-    margin: 80px auto;
+    max-width: 800px;
+    margin: 20px auto;
     background-color: #fff;
     border-radius: 8px;
-    overflow: hidden;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-.product-img {
-    max-width: 50%;
-    border-radius: 8px 0 0 8px;
+.order {
+    border-radius: 8px;
+    margin-bottom: 20px;
+    padding: 20px;
 }
 
-.product-details {
-    padding: 1em;
+.order-header {
+    display: flex;
+    justify-content: space-between;
+    font-size: 16px;
+    color: #555;
 }
 
-.product-details h2 {
-    color: #333;
-    margin-bottom: 0.5em;
+.order-details {
+    margin-top: 20px;
 }
 
-.product-details p {
-    color: #666;
-    line-height: 1.5;
-    margin-bottom: 1em;
+.product {
+    display: flex;
+    margin-bottom: 15px;
 }
 
-.product-details .price {
-    color: #e44d26;
-    font-size: 1.2em;
-    font-weight: bold;
-    margin-bottom: 1em;
-}
-
-.product-details .btn {
-    display: inline-block;
-    padding: 0.5em 1em;
-    background-color: #e44d26;
-    color: #fff !important;
-    text-decoration: none;
+.product img {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    margin-right: 15px;
     border-radius: 4px;
-    transition: background-color 0.3s;
-    margin-right: 10px;
 }
 
-.product-details .btn:hover {
-    background-color: #333;
+.product-info {
+    flex-grow: 1;
 }
 
-@media screen and (max-width: 767px) {
-    .container {
-        display: flex;
-        flex-direction: column;
-    }
+.product-info h3 {
+    margin: 0;
+    color: #333;
+}
 
-    .product-img {
-        border-radius: 8px 8px 0 0;
-    }
+.order-total {
+    margin-top: 20px;
+    text-align: right;
+}
 
-    .product-details {
-        border-radius: 0 0 8px 8px;
-    }
+.order-total h3 {
+    color: #333;
 }

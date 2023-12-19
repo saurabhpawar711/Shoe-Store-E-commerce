@@ -9,31 +9,75 @@ body .navbar {
     position: fixed;
     top: 0;
     width: 100%;
-    z-index: 999;
 }
 
 .navbar-brand,
 .navbar-nav li a {
-    color: #fff;
-}
-
-.navbar-nav li a:hover {
-    color: black;
-    font-weight: bold;
-    font-size: 1.2em;
+    color: #fff !important;
 }
 
 .navabar .nav .dropdown-menu {
     border-radius: 10px;
     padding: 5px;
+    background: #fff;
 }
 
 .dropdown-menu li a {
-    color: #000;
+    color: #000 !important;
 }
 
 .dropdown-menu li a:hover {
     background-color: #ddd;
+}
+
+.navbar-brand {
+    font-size: 24px;
+}
+
+.navbar-toggle {
+    margin: 8px 0;
+}
+
+.form-inline {
+    display: flex;
+}
+
+.nav {
+    display: flex;
+    align-items: center;
+}
+
+.navbar-nav {
+    display: flex;
+    align-items: center;
+}
+
+.navbar-right {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+}
+
+.navbar li i {
+    font-size: large;
+}
+
+.navbar .nav-item a {
+    font-size: large;
+}
+
+.navbar .navbar-brand {
+    font-size: x-large;
+}
+
+@media (max-width: 767px) {
+    .navbar-nav {
+        flex-direction: column;
+    }
+
+    .dropdown-menu li a {
+        color: #fff !important;
+    }
 }
 
 .toast {
@@ -42,9 +86,7 @@ body .navbar {
 
 .loader {
     border: 8px solid #f3f3f3;
-    /* Light grey */
     border-top: 8px solid #3498db;
-    /* Blue */
     border-radius: 50%;
     width: 50px;
     height: 50px;
@@ -144,17 +186,6 @@ body .navbar {
     flex-direction: column;
 }
 
-.navbar li i {
-    font-size: large;
-}
-
-.navbar .nav-item a {
-    font-size: large;
-}
-
-.navbar .navbar-brand {
-    font-size: x-large;
-}
 
 .modal input {
     padding: 8px;

@@ -1,0 +1,187 @@
+body {
+    font-family: sans-serif;
+    margin: 0;
+    background: #0e1630 !important;
+}
+
+body .navbar {
+    background-color: #0e1630;
+    position: fixed;
+    top: 0;
+    width: 100%;
+}
+
+.navbar-brand,
+.navbar-nav li a {
+    color: #fff !important;
+}
+
+.navabar .nav .dropdown-menu {
+    border-radius: 10px;
+    padding: 5px;
+    background: #fff;
+}
+
+.dropdown-menu li a {
+    color: #000 !important;
+}
+
+.dropdown-menu li a:hover {
+    background-color: #ddd;
+}
+
+.navbar-brand {
+    font-size: 24px;
+}
+
+.navbar-toggle {
+    margin: 8px 0;
+}
+
+.form-inline {
+    display: flex;
+}
+
+.nav {
+    display: flex;
+    align-items: center;
+}
+
+.navbar-nav {
+    display: flex;
+    align-items: center;
+}
+
+.navbar-right {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+}
+
+@media (max-width: 767px) {
+    .navbar-nav {
+        flex-direction: column;
+    }
+
+    .dropdown-menu li a {
+        color: #fff !important;
+    }
+}
+
+.toast {
+    opacity: 1 !important;
+}
+
+.container {
+    max-width: 1024px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.checkout-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.checkout-header h1 {
+    font-size: 1.8em;
+    margin: 0;
+}
+
+.checkout-header p {
+    font-size: 14px;
+    color: #777;
+}
+
+.order-summary {
+    background-color: #f1f1f1;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+}
+
+.order-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.order-table th,
+.order-table td {
+    padding: 10px;
+    border: 1px solid #ddd;
+    text-align: left;
+}
+
+.order-table th {
+    font-weight: bold;
+}
+
+.shipping-address-container {
+    background-color: #f5f5f5;
+    padding-right: 50px;
+    padding-left: 20px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+    font-size: 14px;
+}
+
+.payment-options {
+    background-color: #f5f5f5;
+    padding: 20px;
+    border-radius: 5px;
+}
+
+.payment-options h3 {
+    font-size: 16px;
+    margin-bottom: 15px;
+}
+
+.payment-method {
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+}
+
+.payment-method label {
+    font-size: 14px;
+    margin-left: 5px;
+}
+
+.payment-options button[type="submit"] {
+    background-color: #0e1630;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 3px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+    margin-top: 15px;
+    display: block;
+    width: 100%;
+}
+
+@media only screen and (max-width: 768px) {
+    .order-table {
+        font-size: 12px;
+    }
+
+    .form-group input {
+        font-size: 14px;
+    }
+}

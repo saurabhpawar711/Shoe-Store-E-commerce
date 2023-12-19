@@ -115,3 +115,19 @@ window.addEventListener('DOMContentLoaded', async () => {
         showEmptyWishlist();
     }
 })
+
+const searchButton = document.getElementById('searchBtn');
+const searchInput = document.getElementById('search');
+
+searchButton.addEventListener('click', async () => {
+    const searchFor = searchInput.value;
+    window.location.href = `/homePage/index.html?page=${1}&search=${searchFor}`
+})
+
+if (token) {
+    const logoutBtn = document.getElementById('logout');
+    logoutBtn.addEventListener('click', () => {
+        localStorage.clear();
+        window.location.href = '../homePage/index.html';
+    })
+}
