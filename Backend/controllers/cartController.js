@@ -62,7 +62,27 @@ exports.getCart = async (req, res) => {
         console.log(err);
         res.status(400).json({ error: 'No items in cart' });
     }
+}
 
+exports.changeQty = async (req, res) => {
+    try {
+        const userNumber = req.user.number;
+        const { newQty, productId } = req.body;
+
+        const cartDetails = await Cart.findOneAndUpdate(
+            { user: userNumber, 'items.product': productId },
+            { $set: { 'items.$.quantity': newQty } },
+            {
+                new: true,
+                projection: 'items',
+                populate: 'items.product'
+            }
+        );
+        res.status(200).json({ success: true, cartDetails: cartDetails.items });
+    }
+    catch (err) {
+        res.status(500).json({error: 'Something went wrong while changing quantity'});
+    }
 }
 
 exports.deleteCart = async (req, res) => {

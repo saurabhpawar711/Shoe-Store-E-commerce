@@ -10,6 +10,8 @@ router.post('/add', authenticationMiddleware.authentication, cartController.addT
 
 router.get('/get', authenticationMiddleware.authentication, cartController.getCart);
 
+router.patch('/qty', authenticationMiddleware.authentication, cartController.changeQty);
+
 router.delete('/delete/:id', authenticationMiddleware.authentication, cartController.deleteCart);
 
 module.exports = router;

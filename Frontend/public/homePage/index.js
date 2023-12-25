@@ -42,7 +42,7 @@ function loader() {
     setTimeout(function () {
         loader.style.display = 'none';
         content.style.display = 'block';
-    }, 500);
+    }, 1000);
 };
 
 const checkAuthenticationForCart = async () => {
@@ -177,22 +177,21 @@ const addToWishlist = async (product) => {
 
 const addToCart = async (product) => {
     try {
-        console.log(60);
         const token = localStorage.getItem('token');
         const productId = product._id;
         const productDetail = {
             productId
         }
         const response = await axios.post('http://localhost:3000/cart/add', productDetail, { headers: { Authorization: token } });
-        toastr.success(response.data.message);
+        if (response.data.success) {
+            toastr.success(response.data.message);
+        }
     }
     catch (err) {
         console.log(err);
         if (err.response.data.error === 'Authentication required') {
-            console.log(30);
             openModal('signupModal')
         }
-        console.log(50);
     }
 }
 
@@ -265,7 +264,13 @@ const goToPage = async (page) => {
     paginationDiv.innerHTML = "";
 
     const searchInput = document.getElementById('search');
-    const searchFor = searchInput.value;
+    let searchFor = searchInput.value;
+
+    const searchFromUrl = new URL(window.location.href);
+    const search = searchFromUrl.searchParams.get('search');
+    if (search) {
+        searchFor = search;
+    }
 
     const response = await axios.get(`http://localhost:3000/products?page=${page}&search=${searchFor}`)
     response.data.productsDetails.forEach(product => {
@@ -385,15 +390,13 @@ localStorage.setItem('page', 1);
 window.addEventListener('DOMContentLoaded', async () => {
 
     const currentUrl = new URL(window.location.href);
-    const page = currentUrl.searchParams.get('page');
     const search = currentUrl.searchParams.get('search');
 
     let searchFor;
-    let currentPage;
 
-    if (page && search) {
+    if (search) {
         searchFor = search;
-        currentPage = page;
+        currentPage = 1;
     }
     else {
         currentPage = localStorage.getItem('page');
@@ -408,27 +411,30 @@ window.addEventListener('DOMContentLoaded', async () => {
 
 })
 
-const searchButton = document.getElementById('searchBtn');
-const searchInput = document.getElementById('search');
 
-searchButton.addEventListener('click', async () => {
+const searchForItem = async (e) => {
+
+    e.preventDefault();
+
+    const searchInput = document.getElementById('search');
     const searchFor = searchInput.value;
 
     localStorage.setItem('page', 1);
     const page = localStorage.getItem('page');
 
+    const response = await axios.get(`http://localhost:3000/products?page=${page}&search=${searchFor}`);
+
     const products = document.querySelector('.products');
     products.innerHTML = "";
+
     const paginationDiv = document.querySelector('.pagination');
     paginationDiv.innerHTML = "";
-
-    const response = await axios.get(`http://localhost:3000/products?page=${page}&search=${searchFor}`)
 
     response.data.productsDetails.forEach(product => {
         showProduct(product);
     });
     pagination(response.data.pageData);
-})
+}
 
 if (token) {
     const logoutBtn = document.getElementById('logout');
@@ -437,3 +443,4 @@ if (token) {
         window.location.href = "index.html";
     })
 }
+

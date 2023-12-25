@@ -8,6 +8,7 @@ const orderSchema = new mongoose.Schema({
         type: Number,
         ref: 'User',
         required: true,
+        index: true
     },
     products: [
         {
@@ -38,7 +39,7 @@ const orderSchema = new mongoose.Schema({
     },
     status: {
         type: String,
-        enum: ['Pending', 'Processing', 'Shipped', 'Delivered'],
+        enum: ['Pending', 'Processing', 'Shipped', 'Delivered', 'Cancelled'],
         default: 'Pending',
     },
     createdAt: {

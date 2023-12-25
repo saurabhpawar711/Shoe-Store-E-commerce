@@ -96,11 +96,10 @@ body .navbar {
 
 .product-img {
     max-width: 50%;
-    border-radius: 8px 0 0 8px;
 }
 
 .product-details {
-    padding: 1em;
+    padding: 2em;
 }
 
 .product-details h2 {

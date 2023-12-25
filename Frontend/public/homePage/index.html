@@ -33,9 +33,9 @@
                     </li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
-                    <form class="form-inline">
-                        <input class="form-control" id="search" type="text" placeholder="Search">
-                        <button class="btn btn-primary" id="searchBtn" type="button">Search</button>
+                    <form class="form-inline" onsubmit="searchForItem(event)">
+                        <input class="form-control" oninput="searchForItem(event)" id="search" type="text"
+                            placeholder="Search for items" style="width: 300px;">
                     </form>
                     <li><a href="#" onclick="checkAuthenticationForWishlist()" class="wishlist"><i
                                 class="fa-regular fa-heart"></i></a></li>
@@ -89,9 +89,7 @@
 
     <div id="loader" class="loader"></div>
 
-    <div id="content" style="display: none;">
-
-        <h2 style="text-align:center; color: white;">Product Card</h2>
+    <div id="content" style="display: none; margin-top: 70px;">
 
         <div class="products">
             <!-- <div class="product-card">
@@ -112,16 +110,16 @@
         <div style="display: flex; justify-content: center; ">
             <div class="pagination">
                 <!-- <a href="#">&laquo;</a>
-            <a href="#">1</a>
-            <a href="#" class="active">2</a>
-            <a href="#">3</a>
-            <a href="#">&raquo;</a> -->
+                <a href="#">1</a>
+                <a href="#" class="active">2</a>
+                <a href="#">3</a>
+                <a href="#">&raquo;</a> -->
             </div>
         </div>
     </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.6.2/axios.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <script src="index.js"></script>
 </body>

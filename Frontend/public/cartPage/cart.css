@@ -147,6 +147,19 @@ main {
     outline: none;
 }
 
+.search-input {
+    max-width: 50px;
+    border: lightgrey;
+    border-radius: 3px;
+    margin-right: 5px;
+}
+
+.update-btn {
+    background: rgb(95, 226, 95);
+    border-radius: 5px;
+    border: none;
+}
+ 
 .remove-btn {
     background-color: #ff4d4d;
     color: #fff;
@@ -203,7 +216,7 @@ body {
 
 .empty-cart img {
     max-width: 100%;
-    height: auto;
+    height: 100%;
     margin-bottom: 20px;
 }
 

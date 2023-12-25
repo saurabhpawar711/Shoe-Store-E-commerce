@@ -12,7 +12,7 @@ const removeFromCart = async (number) => {
     }
 }
 
-exports.paymentGateway = async (req, res) => {
+exports.paymentGatewayProcess = async (req, res) => {
     try {
         const userNumber = req.user.number;
         const { name, address } = req.body;
@@ -24,15 +24,30 @@ exports.paymentGateway = async (req, res) => {
                 paymentMethod: 'Credit/Debit Card',
                 customerName: name,
                 address: address,
-                status: 'Processing'
+            }
+        )
+
+        await Promise.all([order, updateStatus]);
+        const id = await stripeGateway(order.totalAmount, order.products);
+
+        res.status(200).json({ id: id, message: 'Your Order will be delivered soon' });
+    }
+    catch (err) {
+        console.log(err);
+    }
+}
+
+exports.paymentConfirm = async (req, res) => {
+    const status = req.body.status;
+    const userNumber = req.user.number;
+    try {
+        await Order.findOneAndUpdate({ user: userNumber, status: 'Pending', paymentMethod: 'Credit/Debit Card' },
+            {
+                status: status
             }
         )
         removeFromCart(userNumber);
-
-        await Promise.all([order, updateStatus, removeFromCart]);
-        const id = await stripeGateway(order.totalAmount, order.products);
-        
-        res.status(200).json({ id: id, message: 'Your Order will be delivered soon' });
+        res.status(200).json({ success: true });
     }
     catch (err) {
         console.log(err);

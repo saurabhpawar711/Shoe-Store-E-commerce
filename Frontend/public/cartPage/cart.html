@@ -37,10 +37,8 @@
                         <input class="form-control" id="search" type="text" placeholder="Search">
                         <button class="btn btn-primary" id="searchBtn" type="button">Search</button>
                     </form>
-                    <li><a href="../wishlistPage/wishlist.html"><i
-                                class="fa-regular fa-heart"></i></a></li>
-                    <li><a href="../cartPage/cart.html"><i
-                                class="fa-solid fa-cart-shopping"></i></a></li>
+                    <li><a href="../wishlistPage/wishlist.html"><i class="fa-regular fa-heart"></i></a></li>
+                    <li><a href="../cartPage/cart.html"><i class="fa-solid fa-cart-shopping"></i></a></li>
                     <li class="dropdown">
                         <a class="nav-link dropdown-toggle user" href="#" role="button" id="userBtn"
                             data-toggle="dropdown" aria-expanded="false"><i class="fa-regular fa-user"></i></a>
@@ -85,12 +83,13 @@
                     <span class="price">$19.99</span>
                     <div class="quantity">
                         <label for="quantity">Quantity:</label>
-                        <input type="number" id="quantity" name="quantity" value="1" min="1" style="max-width: 100px;">
+                        <select id="quantity" name="quantity" style="max-width: 100px;">
+                           
+                        </select>
                     </div>
                 </div>
                 <button class="remove-btn">Remove</button>
             </div> -->
-            <!-- Add more cart items as needed -->
 
         </div>
 
@@ -102,15 +101,15 @@
 
     <div class="empty-cart-container">
         <div class="empty-cart">
-            <img src="https://www.99fashionbrands.com/wp-content/uploads/2020/12/empty_cart.png" alt="Empty Cart Image">
+            <img src="empty_cart.png" alt="Empty Cart Image">
             <p>Looks like you haven't added anything to your cart yet.</p>
             <p>Explore our <a href="../homePage/index.html">products</a> and find something you like!</p>
         </div>
     </div>
 
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.6.2/axios.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <script src="cart.js"></script>
 

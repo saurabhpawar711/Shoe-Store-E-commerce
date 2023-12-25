@@ -92,15 +92,56 @@ header {
 .container {
     max-width: 800px;
     margin: 20px auto;
-    background-color: #fff;
     border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.filter {
+    float: right;
+}
+
+label {
+    display: block;
+    margin-top: 20px;
+    font-size: large;
+    font-weight: bold;
+    color: #fff;
+}
+
+select {
+    padding: 5px 20px 5px 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    appearance: none;
+    background-color: white;
+    background-image: url('data:image/svg+xml;utf8,<svg fill="black" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z" fill="black"/><path d="M0 0h24v24H0z" fill="none"/></svg>');
+    background-repeat: no-repeat;
+    background-position: right center;
+}
+
+.no-orders-message {
+    text-align: center;
+    margin-top: 20px;
+    color: #fff;
+    display: none;
+}
+
+.no-orders-message.active {
+    display: block;
+}
+
+.container .orders {
+    max-width: 100%;
+    margin: 60px auto;
+    border-radius: 8px;
 }
 
 .order {
     border-radius: 8px;
     margin-bottom: 20px;
     padding: 20px;
+    background-color: #fff;
 }
 
 .order-header {
@@ -143,4 +184,48 @@ header {
 
 .order-total h3 {
     color: #333;
+}
+
+.cancel-order-btn {
+    background: #d81f1f;
+    color: #fff;
+    border-radius: 5px;
+    padding: 10px;
+    border: none;
+}
+
+.cancel-order-btn:hover {
+    background: #bb1212;
+}
+
+.empty-container {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    margin: auto;
+    max-width: 600px;
+}
+
+.no-order {
+    margin: 20px auto;
+    text-align: center;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+}
+
+.no-order h1 {
+    color: #333;
+}
+
+.no-order p {
+    color: #777;
+}
+
+.no-order img {
+    max-width: 300px;
+    border-radius: 5px;
+    /* margin-bottom: 10px; */
+    margin: 0 auto;
+
 }

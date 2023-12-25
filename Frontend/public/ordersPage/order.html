@@ -72,31 +72,58 @@
     <h2 style="margin-top: 60px; text-align: center; color: #fff;">Your Orders</h2>
 
     <div class="container">
-        <!-- <div class="order">
-            <div class="order-header">
-                <span>Date: January 15, 2023</span>
-            </div>
-            <div class="order-details">
-                <div class="product">
-                    <img src="//assets.myntassets.com/dpr_1.5,q_60,w_400,c_limit,fl_progressive/assets/images/25841290/2023/11/10/904965cc-764d-46d7-92c7-f20a3f5e98971699605661861PumaBadmintonSmashSprintUnisexIndoorShoes1.jpg"
-                        alt="Product Image">
-                    <div class="product-info">
-                        <h3>Product Name</h3>
-                        <p>Quantity: 2</p>
-                        <p>Price: $19.99 each</p>
-                        <p>Status: Delivered</p>
+
+        <div class="filter">
+            <label for="statusFilter">Filter by Status:</label>
+            <select id="statusFilter" onchange="filterOrders()">
+                <option value="All">All</option>
+                <option value="Processing">Processing</option>
+                <option value="Shipped">Shipped</option>
+                <option value="Delivered">Delivered</option>
+                <option value="Cancelled">Cancelled</option>
+            </select>
+        </div>
+
+        <div class="orders">
+            <!-- <div class="order">
+                <div class="order-header">
+                    <span>Date: January 15, 2023</span>
+                </div>
+                <div class="order-details">
+                    <div class="product">
+                        <img src="//assets.myntassets.com/dpr_1.5,q_60,w_400,c_limit,fl_progressive/assets/images/25841290/2023/11/10/904965cc-764d-46d7-92c7-f20a3f5e98971699605661861PumaBadmintonSmashSprintUnisexIndoorShoes1.jpg"
+                            alt="Product Image">
+                        <div class="product-info">
+                            <h3>Product Name</h3>
+                            <p>Quantity: 2</p>
+                            <p>Price: $19.99 each</p>
+                            <p>Status: Delivered</p>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="order-total">
-                <h3>Total: $69.97</h3>
-            </div>
-        </div> -->
+                <div class="order-total">
+                    <h3>Total: $69.97</h3>
+                </div>
+            </div> -->
+        </div>
     </div>
 
+    <div class="empty-container" style="display: none;">
+        <div class="no-order">
+            <p>No items in your orders list.</p>
+            <img src="noOrder.png" alt="Empty Box Image">
+            <p>Explore our products and start shopping!</p>
+            <p><a href="../homePage/index.html">Shop Now</a></p>
+        </div>
+    </div>
+
+    <div class="no-orders-message" style="display: none;">
+        
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.6.2/axios.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <script src="order.js"></script>
 

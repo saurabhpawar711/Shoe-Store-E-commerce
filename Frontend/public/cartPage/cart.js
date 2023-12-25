@@ -1,20 +1,15 @@
 
-
-function toggleMenu() {
-    const navMenu = document.querySelector('ul');
-    navMenu.classList.toggle('show');
-}
+toastr.options = {
+    closeButton: true,
+    timeOut: 1000,
+    progressBar: true,
+};
 
 const removeFromScreen = (cartItemDiv) => {
     const cartDiv = document.querySelector('.cart');
     cartDiv.removeChild(cartItemDiv);
 }
 
-toastr.options = {
-    closeButton: true,
-    timeOut: 1000,
-    progressBar: true,
-};
 
 const removeFromCart = async (item, cartItemDiv) => {
     try {
@@ -31,6 +26,23 @@ const removeFromCart = async (item, cartItemDiv) => {
     }
     catch (err) {
         console.log(err);
+    }
+}
+
+const changeQty = async (newQty, productId) => {
+    const token = localStorage.getItem('token');
+    if (newQty !== '10+') {
+        const qty = {
+            newQty: newQty,
+            productId: productId
+        }
+        try {
+            const response = await axios.patch('http://localhost:3000/cart/qty', qty, { headers: { Authorization: token } });
+            updateTotal(response.data.cartDetails);
+        }
+        catch (err) {
+            console.log(err);
+        }
     }
 }
 
@@ -61,15 +73,68 @@ const showCart = (item) => {
     quantityDiv.classList.add('quantity');
 
     const quantityLabel = document.createElement('label');
-    quantityLabel.textContent = 'Qty:'
+    quantityLabel.textContent = 'Qty: '
 
-    const inputForQty = document.createElement('input');
-    inputForQty.id = 'quantity';
-    inputForQty.name = 'quantity';
-    inputForQty.type = 'number'
-    inputForQty.value = item.quantity;
-    inputForQty.min = 1;
-    inputForQty.readOnly = true;
+    const searchInput = document.createElement('input');
+    searchInput.type = 'number';
+    searchInput.value = item.quantity;
+    searchInput.min = 1;
+    searchInput.max = 999;
+    searchInput.classList.add('search-input');
+    searchInput.style.display = 'none';
+    searchInput.addEventListener('input', function () {
+        const currentValue = parseInt(this.value, 10);
+        if (currentValue < this.min) {
+            this.value = "";
+        } else if (currentValue > this.max) {
+            this.value = "";
+        }
+    });
+
+    const updateBtn = document.createElement('button');
+    updateBtn.classList.add('update-btn');
+    updateBtn.textContent = 'Update';
+    updateBtn.style.display = 'none';
+    updateBtn.addEventListener('click', () => {
+        const newQty = searchInput.value;
+        changeQty(newQty, item.product._id);
+    })
+
+    const select = document.createElement('select');
+    select.id = 'quantity';
+    select.name = 'quantity';
+    select.style.maxWidth = '100px';
+    select.onchange = () => {
+        const selectedValue = select.value;
+        if (selectedValue === '10+') {
+            searchInput.style.display = 'inline-block';
+            updateBtn.style.display = 'inline-block';
+            select.style.display = 'none';
+        }
+        changeQty(selectedValue, item.product._id);
+    };
+
+    for (let i = 1; i <= 9; i++) {
+        const option = document.createElement('option');
+        option.value = i;
+        option.text = i;
+        select.appendChild(option);
+
+        if (i === item.quantity) {
+            option.selected = true;
+        }
+    }
+
+    const option = document.createElement('option');
+    option.value = '10+';
+    option.text = '10+';
+    select.appendChild(option);
+
+    if (item.quantity > 10) {
+        searchInput.style.display = 'inline-block';
+        updateBtn.style.display = 'inline-block';
+        select.style.display = 'none';
+    }
 
     const deleteBtn = document.createElement('button');
     deleteBtn.classList.add('remove-btn');
@@ -77,7 +142,9 @@ const showCart = (item) => {
     deleteBtn.addEventListener('click', () => removeFromCart(item, cartItemDiv));
 
     quantityDiv.appendChild(quantityLabel);
-    quantityDiv.appendChild(inputForQty);
+    quantityDiv.appendChild(select);
+    quantityDiv.appendChild(searchInput);
+    quantityDiv.appendChild(updateBtn);
 
     itemDetailsDiv.appendChild(productName);
     itemDetailsDiv.appendChild(productDesc);
@@ -166,7 +233,7 @@ const searchInput = document.getElementById('search');
 
 searchButton.addEventListener('click', async () => {
     const searchFor = searchInput.value;
-    window.location.href = `/homePage/index.html?page=${1}&search=${searchFor}`
+    window.location.href = `/homePage/index.html?search=${searchFor}`
 })
 
 if (token) {

@@ -46,14 +46,51 @@ exports.getCheckout = async (req, res) => {
 exports.getOrders = async (req, res) => {
     try {
         const userNumber = req.user.number;
+        const status = req.query.status;
+        let orderData;
 
-        const orderData = await Order.find({ user: userNumber }, 'products totalAmount status createdAt')
-            .populate('products.productId')
-            .sort({createdAt: -1});
+        if (status && status !== 'All') {
+            orderData = await Order.find({ user: userNumber, status: status }, 'products totalAmount status createdAt')
+                .populate('products.productId')
+                .sort({ createdAt: -1 });
+        }
+        else {
+            orderData = await Order.find({ user: userNumber, status: { $ne: 'Pending' } }, 'products totalAmount status createdAt')
+                .populate('products.productId')
+                .sort({ createdAt: -1 });
+        }
+
+        if (orderData.length === 0) {
+            throw new Error('No order list');
+        }
 
         res.status(200).json({ orderData: orderData });
     }
     catch (err) {
         console.log(err);
+        res.status(404).json({ error: err.message });
+    }
+}
+
+exports.cancelOrder = async (req, res) => {
+    const userNumber = req.user.number;
+    const orderId = req.body.orderId;
+    try {
+        const orderData = await Order.findOneAndUpdate({ user: userNumber, _id: orderId, status: { $ne: 'Pending Cancelled' } },
+            {
+                $set: { status: 'Cancelled' }
+            },
+            {
+                new: true,
+                projection: 'products totalAmount status createdAt',
+                populate: { path: 'products.productId' },
+                sort: { createdAt: -1 }
+            })
+
+        res.status(200).json({ orderData: orderData });
+    }
+    catch (err) {
+        console.log(err);
+        res.status(500).json({ error: 'Something went wrong while cancelling order' });
     }
 }

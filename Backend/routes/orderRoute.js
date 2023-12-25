@@ -12,4 +12,6 @@ router.get('/checkout/get', authenticationMiddleware.authentication, ordersContr
 
 router.get('/get', authenticationMiddleware.authentication, ordersController.getOrders);
 
+router.patch('/cancel', authenticationMiddleware.authentication, ordersController.cancelOrder);
+
 module.exports = router;
