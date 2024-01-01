@@ -5,6 +5,8 @@ toastr.options = {
     progressBar: true,
 };
 
+const API_URL = 'https://lfwz6gudb7.execute-api.ap-south-1.amazonaws.com/Dev'
+
 const removeFromScreen = (cartItemDiv) => {
     const cartDiv = document.querySelector('.cart');
     cartDiv.removeChild(cartItemDiv);
@@ -15,7 +17,7 @@ const removeFromCart = async (item, cartItemDiv) => {
     try {
         const productId = item.product._id;
         const token = localStorage.getItem('token');
-        const response = await axios.delete(`http://localhost:3000/cart/delete/${productId}`, { headers: { Authorization: token } });
+        const response = await axios.delete(`${API_URL}/cart/delete/${productId}`, { headers: { Authorization: token } });
         removeFromScreen(cartItemDiv);
         if (response.data.cartDetails.length === 0) {
             showEmptyCart();
@@ -37,7 +39,7 @@ const changeQty = async (newQty, productId) => {
             productId: productId
         }
         try {
-            const response = await axios.patch('http://localhost:3000/cart/qty', qty, { headers: { Authorization: token } });
+            const response = await axios.patch(`${API_URL}/cart/qty`, qty, { headers: { Authorization: token } });
             updateTotal(response.data.cartDetails);
         }
         catch (err) {
@@ -174,7 +176,7 @@ const checkout = async (items, total) => {
             total: total
         }
 
-        await axios.post('http://localhost:3000/order/checkout/add', productsToOrder, { headers: { Authorization: token } });
+        await axios.post(`${API_URL}/order/checkout/add`, productsToOrder, { headers: { Authorization: token } });
         window.location.href = '../checkoutPage/checkout.html';
     }
     catch (err) {
@@ -215,7 +217,7 @@ window.addEventListener('DOMContentLoaded', async () => {
     try {
         const token = localStorage.getItem('token');
 
-        const response = await axios.get('http://localhost:3000/cart/get', { headers: { Authorization: token } });
+        const response = await axios.get(`${API_URL}/cart/get`, { headers: { Authorization: token } });
 
         response.data.cartDetails.forEach(item => {
             showCart(item);
@@ -228,13 +230,15 @@ window.addEventListener('DOMContentLoaded', async () => {
     }
 });
 
-const searchButton = document.getElementById('searchBtn');
-const searchInput = document.getElementById('search');
+const searchForItem = async (e) => {
+    e.preventDefault();
 
-searchButton.addEventListener('click', async () => {
-    const searchFor = searchInput.value;
-    window.location.href = `/homePage/index.html?search=${searchFor}`
-})
+    const searchInput = document.getElementById('search').value;
+    const searchresInput = document.getElementById('search-res').value;
+    
+    const searchFor = searchInput ? searchInput : searchresInput;
+    window.location.href = `../homePage/index.html?page=1&search=${searchFor}`
+}
 
 if (token) {
     const logoutBtn = document.getElementById('logout');

@@ -1,4 +1,4 @@
-
+const API_URL = 'https://lfwz6gudb7.execute-api.ap-south-1.amazonaws.com/Dev'
 
 if (!token) {
     const signUpBtn = document.getElementById('signUp');
@@ -48,7 +48,7 @@ function loader() {
 const checkAuthenticationForCart = async () => {
     const token = localStorage.getItem('token');
     try {
-        const response = await axios.get('http://localhost:3000/auth/check-authentication', { headers: { Authorization: token } });
+        const response = await axios.get(`${API_URL}/auth/check-authentication`, { headers: { Authorization: token } });
         if (response.data.success) {
             window.location.href = '../cartPage/cart.html';
         }
@@ -63,7 +63,7 @@ const checkAuthenticationForCart = async () => {
 const checkAuthenticationForOrder = async () => {
     const token = localStorage.getItem('token');
     try {
-        const response = await axios.get('http://localhost:3000/auth/check-authentication', { headers: { Authorization: token } });
+        const response = await axios.get(`${API_URL}/auth/check-authentication`, { headers: { Authorization: token } });
         if (response.data.success) {
             window.location.href = '../ordersPage/order.html';
         }
@@ -78,7 +78,7 @@ const checkAuthenticationForOrder = async () => {
 const checkAuthenticationForWishlist = async () => {
     const token = localStorage.getItem('token');
     try {
-        const response = await axios.get('http://localhost:3000/auth/check-authentication', { headers: { Authorization: token } });
+        const response = await axios.get(`${API_URL}/auth/check-authentication`, { headers: { Authorization: token } });
         if (response.data.success) {
             window.location.href = '../wishlistPage/wishlist.html';
         }
@@ -121,14 +121,14 @@ const toggleInputs = async () => {
             const number = {
                 number: numberInput.value
             }
-            await axios.post('http://localhost:3000/auth/otp', number);
+            await axios.post(`${API_URL}/auth/otp`, number);
         }
         else {
             throw new Error('Enter valid mobile number');
         }
     }
     catch (err) {
-        console.log(err);
+        toastr.error(err.message);
     }
 }
 
@@ -140,13 +140,10 @@ const login = async () => {
             otp: otp
         }
 
-        console.log(loginDetails);
-
-        const response = await axios.post('http://localhost:3000/auth/login', loginDetails);
+        const response = await axios.post(`${API_URL}/auth/login`, loginDetails);
         if (response.data.success) {
             closeModal('signupModal');
             toastr.success('You have successfully logged in!');
-
             localStorage.setItem('token', response.data.token)
         }
     }
@@ -163,7 +160,7 @@ const addToWishlist = async (product) => {
         const productDetail = {
             productId
         }
-        const response = await axios.post('http://localhost:3000/wishlist/add', productDetail, { headers: { Authorization: token } });
+        const response = await axios.post(`${API_URL}/wishlist/add`, productDetail, { headers: { Authorization: token } });
         toastr.success(response.data.message);
     }
     catch (err) {
@@ -182,7 +179,7 @@ const addToCart = async (product) => {
         const productDetail = {
             productId
         }
-        const response = await axios.post('http://localhost:3000/cart/add', productDetail, { headers: { Authorization: token } });
+        const response = await axios.post(`${API_URL}/cart/add`, productDetail, { headers: { Authorization: token } });
         if (response.data.success) {
             toastr.success(response.data.message);
         }
@@ -257,14 +254,22 @@ const showProduct = (product) => {
 
 const goToPage = async (page) => {
 
+    const queryParams = new URLSearchParams(window.location.search);
+    if (queryParams.get('page')) {
+        queryParams.set('page', page);
+        history.replaceState(null, null, "?" + queryParams.toString());
+    }
+
     const products = document.querySelector('.products');
     products.innerHTML = "";
 
     const paginationDiv = document.querySelector('.pagination');
     paginationDiv.innerHTML = "";
 
-    const searchInput = document.getElementById('search');
-    let searchFor = searchInput.value;
+    const searchInput = document.getElementById('search').value;
+    const searchresInput = document.getElementById('search-res').value;
+
+    let searchFor = searchInput ? searchInput : searchresInput;
 
     const searchFromUrl = new URL(window.location.href);
     const search = searchFromUrl.searchParams.get('search');
@@ -272,7 +277,7 @@ const goToPage = async (page) => {
         searchFor = search;
     }
 
-    const response = await axios.get(`http://localhost:3000/products?page=${page}&search=${searchFor}`)
+    const response = await axios.get(`${API_URL}/products?page=${page}&search=${searchFor}`)
     response.data.productsDetails.forEach(product => {
         showProduct(product);
     });
@@ -386,24 +391,30 @@ const pagination = (pageData) => {
     }
 }
 
-localStorage.setItem('page', 1);
+if (!localStorage.getItem('page')) {
+    localStorage.setItem('page', 1);
+}
+
 window.addEventListener('DOMContentLoaded', async () => {
 
-    const currentUrl = new URL(window.location.href);
-    const search = currentUrl.searchParams.get('search');
+    const currentUrl = new URLSearchParams(window.location.search);
+    const search = currentUrl.get('search');
+    const currentPage = currentUrl.get('page');
 
     let searchFor;
+    let currPage;
 
-    if (search) {
+    if (currentUrl.size !== 0) {
         searchFor = search;
-        currentPage = 1;
+        currPage = currentPage;
     }
     else {
-        currentPage = localStorage.getItem('page');
-        const searchInput = document.getElementById('search');
-        searchFor = searchInput.value;
+        currPage = localStorage.getItem('page');
+        searchFor = "";
     }
-    const response = await axios.get(`http://localhost:3000/products?page=${currentPage}&search=${searchFor}`)
+
+    const response = await axios.get(`${API_URL}/products?page=${currPage}&search=${searchFor}`);
+
     response.data.productsDetails.forEach(product => {
         showProduct(product);
     });
@@ -416,13 +427,28 @@ const searchForItem = async (e) => {
 
     e.preventDefault();
 
-    const searchInput = document.getElementById('search');
-    const searchFor = searchInput.value;
+    const searchInput = document.getElementById('search').value;
+    const searchresInput = document.getElementById('search-res').value;
+
+    const searchFor = searchInput ? searchInput : searchresInput;
+
+    const queryParams = new URLSearchParams(window.location.search);
+    if (queryParams.size === 0) {
+        queryParams.set('page', 1);
+        queryParams.set('search', searchFor);
+        history.pushState(null, null, "?" + queryParams.toString());
+    }
+
+    else if (queryParams.get('search')) {
+        queryParams.set('search', searchFor);
+        queryParams.set('page', 1);
+        history.replaceState(null, null, "?" + queryParams.toString());
+    }
 
     localStorage.setItem('page', 1);
     const page = localStorage.getItem('page');
 
-    const response = await axios.get(`http://localhost:3000/products?page=${page}&search=${searchFor}`);
+    const response = await axios.get(`${API_URL}/products?page=${page}&search=${searchFor}`);
 
     const products = document.querySelector('.products');
     products.innerHTML = "";

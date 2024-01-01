@@ -1,4 +1,4 @@
-
+const API_URL = 'https://lfwz6gudb7.execute-api.ap-south-1.amazonaws.com/Dev'
 const showProductInOrderSummary = (product) => {
     const orderTableBody = document.querySelector('.order-table tbody');
 
@@ -29,8 +29,8 @@ window.addEventListener('DOMContentLoaded', async () => {
     try {
         const token = localStorage.getItem('token');
 
-        const response = await axios.get('http://localhost:3000/order/checkout/get', { headers: { Authorization: token } });
-        
+        const response = await axios.get(`${API_URL}/order/checkout/get`, { headers: { Authorization: token } });
+
         response.data.products.forEach(product => {
             showProductInOrderSummary(product);
         })
@@ -57,7 +57,7 @@ const makePaymentThroughGateway = async () => {
     }
 
     try {
-        const response = await axios.post('http://localhost:3000/payment/create-checkout-session', customerDetails,
+        const response = await axios.post(`${API_URL}/payment/create-checkout-session`, customerDetails,
             { headers: { Authorization: token } }
         )
 
@@ -84,10 +84,10 @@ const makePaymentCOD = async () => {
             name,
             address
         }
-        const response = await axios.post('http://localhost:3000/payment/cod', customerDetails,
+        const response = await axios.post(`${API_URL}/payment/cod`, customerDetails,
             { headers: { Authorization: token } }
         )
-        
+
         window.location.href = '../ordersPage/order.html'
     }
     catch (err) {

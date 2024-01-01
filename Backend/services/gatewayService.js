@@ -19,8 +19,8 @@ exports.stripeGateway = async (amount, products) => {
                 payment_method_types: ['card'],
                 line_items: lineItems,
                 mode: 'payment',
-                success_url: `http://localhost:3000/ordersPage/order.html?success=${true}`,
-                cancel_url: 'http://localhost:3000/order/cancel',
+                success_url: `${process.env.API_URL}/ordersPage/order.html?success=${true}`,
+                cancel_url: `${process.env.API_URL}/ordersPage/order.html?success=${false}`,
             })
             resolve(session.id);
         })

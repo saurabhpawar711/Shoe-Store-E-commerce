@@ -30,7 +30,7 @@ exports.generateOtp = async (req, res) => {
 
         const data = await SendOtp(number, otp);
 
-        res.status(201).json({ msg: data });
+        res.status(201).json({ message: data });
     }
     catch (err) {
         console.log(err);

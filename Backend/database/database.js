@@ -7,7 +7,6 @@ const mongoConnection = () => {
             resolve();
         }
         catch (err) {
-            console.log(err);
             reject(err);
         }
     })

@@ -92,7 +92,7 @@ body .navbar {
     height: 50px;
     animation: spin 1s linear infinite;
     margin: auto;
-    margin-top: 20%;
+    margin-top: 50%;
 }
 
 @keyframes spin {
@@ -272,9 +272,27 @@ button:hover {
     border-radius: 5px;
 }
 
+.searchbar-res {
+    display: none;
+}
+
 @media screen and (max-width: 576px) {
     .product-card {
         font-size: 0.9em;
     }
 }
 
+@media screen and (max-width: 766px) {
+    .searchbar-res {
+        display: block;
+        margin-bottom: 8px;
+    }
+    #search-res {
+        padding: 7px;
+        border-radius: 5px;
+        border: none;
+    }
+    .form-inline {
+        display: none;
+    }
+}

@@ -1,8 +1,8 @@
 
-
+const API_URL = 'https://lfwz6gudb7.execute-api.ap-south-1.amazonaws.com/Dev'
 toastr.options = {
     closeButton: true,
-    timeOut: 1000,
+    timeOut: 5000,
     progressBar: true,
 };
 
@@ -12,8 +12,10 @@ const filterOrders = async () => {
     const status = selectElements.value;
     const container = document.querySelector('.orders');
     container.innerHTML = "";
+    const emptyContainer = document.querySelector('.no-orders-message');
+    emptyContainer.innerHTML = "";
     try {
-        const response = await axios.get(`http://localhost:3000/order/get?status=${status}`, { headers: { Authorization: token } });
+        const response = await axios.get(`${API_URL}/order/get?status=${status}`, { headers: { Authorization: token } });
         response.data.orderData.forEach(order => {
             showOrder(order);
         })
@@ -37,7 +39,7 @@ const cancelOrder = async (order, orderHeader, orderDiv) => {
         orderId: order._id
     }
     try {
-        const response = await axios.patch('http://localhost:3000/order/cancel', id, { headers: { Authorization: token } });
+        const response = await axios.patch(`${API_URL}/order/cancel`, id, { headers: { Authorization: token } });
         const updatedStatusOrder = response.data.orderData;
         const statusP = orderHeader.querySelector('.status');
         statusP.textContent = `Status: ${updatedStatusOrder.status}`;
@@ -145,19 +147,29 @@ window.addEventListener('DOMContentLoaded', async () => {
     try {
         const currentUrl = new URL(window.location.href);
         const success = currentUrl.searchParams.get('success');
+        console.log(success)
         const status = {
             status: 'Processing'
         };
-        if (success) {
-            await axios.patch('http://localhost:3000/payment/confirm-payment', status, { headers: { Authorization: token } });
+        if (success === 'true') {
+            console.log(30);
+            await axios.patch(`${API_URL}/payment/confirm-payment`, status, { headers: { Authorization: token } });
         }
-        const response = await axios.get('http://localhost:3000/order/get', { headers: { Authorization: token } });
+        if (success === 'false') {
+            console.log(2);
+            toastr.error('Payment failed, please try again. If amount is deducted then it will be credited within 2-3 business days');
+            const queryParams = new URLSearchParams(window.location.search);
+            queryParams.delete('success');
+            history.replaceState(null, null, "?" + queryParams.toString());
+        }
 
+        const response = await axios.get(`${API_URL}/order/get`, { headers: { Authorization: token } });
         response.data.orderData.forEach(order => {
             showOrder(order);
         })
     }
     catch (err) {
+        console.log(err);
         if (err.response.data.error === 'No order list') {
             const emptyContainer = document.querySelector('.empty-container');
             emptyContainer.style.display = 'block';
@@ -165,13 +177,15 @@ window.addEventListener('DOMContentLoaded', async () => {
     }
 })
 
-const searchButton = document.getElementById('searchBtn');
-const searchInput = document.getElementById('search');
+const searchForItem = async (e) => {
+    e.preventDefault();
 
-searchButton.addEventListener('click', async () => {
-    const searchFor = searchInput.value;
-    window.location.href = `/homePage/index.html?search=${searchFor}`
-})
+    const searchInput = document.getElementById('search').value;
+    const searchresInput = document.getElementById('search-res').value;
+
+    const searchFor = searchInput ? searchInput : searchresInput;
+    window.location.href = `../homePage/index.html?page=1&search=${searchFor}`
+}
 
 if (token) {
     const logoutBtn = document.getElementById('logout');

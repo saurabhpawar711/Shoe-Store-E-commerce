@@ -10,6 +10,7 @@ body .navbar {
     position: fixed;
     top: 0;
     width: 100%;
+    z-index: 1000;
 }
 
 .navbar-brand,
@@ -71,6 +72,10 @@ body .navbar {
     font-size: x-large;
 }
 
+.searchbar-res {
+    display: none;
+}
+
 @media (max-width: 767px) {
     .navbar-nav {
         flex-direction: column;
@@ -78,6 +83,21 @@ body .navbar {
 
     .dropdown-menu li a {
         color: #fff !important;
+    }
+
+    .searchbar-res {
+        display: block;
+        margin-bottom: 8px;
+    }
+
+    #search-res {
+        padding: 7px;
+        border-radius: 5px;
+        border: none;
+    }
+
+    .form-inline {
+        display: none;
     }
 }
 
@@ -97,7 +117,7 @@ header {
     flex-wrap: wrap;
     justify-content: center;
     padding: 1em;
-    margin-top: 50px;
+    margin-top: 80px;
 }
 
 .product-card {
@@ -108,6 +128,7 @@ header {
     border-radius: 8px;
     overflow: hidden;
     transition: transform 0.3s;
+    cursor: pointer;
 }
 
 .product-card:hover {
@@ -192,3 +213,4 @@ header {
     font-size: 1.2em;
     margin-top: 20px;
 }
+

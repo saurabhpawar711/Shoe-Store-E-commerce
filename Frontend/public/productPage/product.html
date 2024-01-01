@@ -22,23 +22,29 @@
                 </button>
                 <a class="navbar-brand" href="../homePage/index.html">Shoe Store</a>
             </div>
+
+            <form style="width: 100%;" onsubmit="searchForItem(event)">
+                <input id="search-res" class="searchbar-res" type="text"
+                    placeholder="Search for products" style="width: 100%;">
+            </form>
+            
             <div class="collapse navbar-collapse" id="myNavbar">
                 <ul class="nav navbar-nav">
                     <li class="nav-item">
                         <a class="nav-link active" aria-current="page" href="../homePage/index.html">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="../ordersPage/order.html">Orders</a>
+                        <a class="nav-link" onclick="checkAuthenticationForOrder()" href="#">Orders</a>
                     </li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
-                    <form class="form-inline">
-                        <input class="form-control" id="search" type="text" placeholder="Search">
-                        <button class="btn btn-primary" id="searchBtn" type="button">Search</button>
+                    <form class="form-inline" onsubmit="searchForItem(event)">
+                        <input class="form-control" id="search" type="text"
+                            placeholder="Search for products" style="width: 300px;">
                     </form>
-                    <li><a href="../wishlistPage/wishlist.html" class="wishlist"><i class="fa-regular fa-heart"></i></a>
+                    <li><a href="#" onclick="checkAuthenticationForWishlist()" class="wishlist"><i class="fa-regular fa-heart"></i></a>
                     </li>
-                    <li><a href="../cartPage/cart.html" class="cart"><i class="fa-solid fa-cart-shopping"></i></a></li>
+                    <li><a href="#" onclick="checkAuthenticationForCart()" class="cart"><i class="fa-solid fa-cart-shopping"></i></a></li>
                     <li class="dropdown">
                         <a class="nav-link dropdown-toggle user" href="#" role="button" id="userBtn"
                             data-toggle="dropdown" aria-expanded="false"><i class="fa-regular fa-user"></i></a>
@@ -56,10 +62,10 @@
                                 <hr class="dropdown-divider">
                             </li>
                             <li>
-                                <a class="dropdown-item" href="../ordersPage/order.html">Orders</a>
+                                <a class="dropdown-item" onclick="checkAuthenticationForOrder()" href="#">Orders</a>
                             </li>
                             <li>
-                                <a class="dropdown-item" href="../cartPage/cart.html">Cart</a>
+                                <a class="dropdown-item" onclick="checkAuthenticationForCart()" href="#">Cart</a>
                             </li>
                         </ul>
                     </li>
@@ -67,6 +73,24 @@
             </div>
         </div>
     </nav>
+
+    <div class="modal" id="signupModal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('signupModal')">&times;</span>
+            <h2>Sign Up or Login</h2>
+            <form id="signupForm">
+                <input type="tel" id="number" name="number" placeholder="Mobile Number" pattern="[0-9]{10}"
+                    maxlength="10" minlength="10" required>
+                <input class="otp" type="text" id="otp" maxlength="4" placeholder="Enter 4-digit OTP"
+                    style="display: none;" />
+                <button type="button" class="continueBtn" onclick="toggleInputs()" value="Continue"
+                    style="display: block;">Continue</button>
+                <button type="button" class="loginBtn" onclick="login()" value="Continue"
+                    style="display: none;">Verify</button>
+            </form>
+        </div>
+    </div>
+
     <div class="container">
         <!-- <img class="product-img"
             src="https://static.nike.com/a/images/c_limit,w_592,f_auto/t_product_v1/i1-665455a5-45de-40fb-945f-c1852b82400d/react-infinity-run-flyknit-mens-running-shoe-zX42Nc.jpg"

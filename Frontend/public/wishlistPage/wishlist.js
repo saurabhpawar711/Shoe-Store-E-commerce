@@ -1,3 +1,4 @@
+const API_URL = 'https://lfwz6gudb7.execute-api.ap-south-1.amazonaws.com/Dev'
 toastr.options = {
     closeButton: true,
     timeOut: 1000,
@@ -16,7 +17,7 @@ const addToCart = async (product) => {
         const productDetail = {
             productId
         }
-        const response = await axios.post('http://localhost:3000/cart/add', productDetail, { headers: { Authorization: token } });
+        const response = await axios.post(`${API_URL}/cart/add`, productDetail, { headers: { Authorization: token } });
         toastr.success(response.data.message);
     }
     catch (err) {
@@ -29,7 +30,7 @@ const removeFromWishlist = async (product, productCardDiv) => {
         const token = localStorage.getItem('token');
         const productId = product._id;
 
-        const response = await axios.delete(`http://localhost:3000/wishlist/delete/${productId}`, { headers: { Authorization: token } });
+        const response = await axios.delete(`${API_URL}/wishlist/delete/${productId}`, { headers: { Authorization: token } });
 
         const container = document.querySelector('.container');
         container.removeChild(productCardDiv);
@@ -44,9 +45,17 @@ const removeFromWishlist = async (product, productCardDiv) => {
     }
 }
 
+const showProductDetails = (product) => {
+    const productId = product._id;
+    window.location.href = `../productPage/product.html?productid=${productId}`;
+}
+
 const showWishlist = (product) => {
     const productCard = document.createElement('div');
     productCard.classList.add('product-card');
+    productCard.addEventListener('click', () => {
+        showProductDetails(product)
+    });
 
     const image = document.createElement('img');
     image.src = product.imageURL;
@@ -77,13 +86,19 @@ const showWishlist = (product) => {
     const addToCartBtn = document.createElement('a');
     addToCartBtn.classList.add('btn');
     addToCartBtn.textContent = 'Add to Cart';
-    addToCartBtn.addEventListener('click', () => addToCart(product));
+    addToCartBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        addToCart(product)
+    });
 
     const cancelBtn = document.createElement('a');
     cancelBtn.href = '#';
     cancelBtn.classList.add('btn', 'btn-cancel');
     cancelBtn.textContent = 'Cancel';
-    cancelBtn.addEventListener('click', () => removeFromWishlist(product, productCard));
+    cancelBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        removeFromWishlist(product, productCard)
+    });
 
     buttonsDiv.appendChild(addToCartBtn);
     buttonsDiv.appendChild(cancelBtn);
@@ -105,7 +120,7 @@ const showWishlist = (product) => {
 window.addEventListener('DOMContentLoaded', async () => {
     try {
         const token = localStorage.getItem('token');
-        const response = await axios.get('http://localhost:3000/wishlist/get', { headers: { Authorization: token } });
+        const response = await axios.get(`${API_URL}/wishlist/get`, { headers: { Authorization: token } });
 
         response.data.wishlist.forEach(product => {
             showWishlist(product.product);
@@ -117,13 +132,15 @@ window.addEventListener('DOMContentLoaded', async () => {
     }
 })
 
-const searchButton = document.getElementById('searchBtn');
-const searchInput = document.getElementById('search');
+const searchForItem = async (e) => {
+    e.preventDefault();
 
-searchButton.addEventListener('click', async () => {
-    const searchFor = searchInput.value;
-    window.location.href = `/homePage/index.html?search=${searchFor}`
-})
+    const searchInput = document.getElementById('search').value;
+    const searchresInput = document.getElementById('search-res').value;
+
+    const searchFor = searchInput ? searchInput : searchresInput;
+    window.location.href = `../homePage/index.html?page=1&search=${searchFor}`
+}
 
 if (token) {
     const logoutBtn = document.getElementById('logout');

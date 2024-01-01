@@ -242,8 +242,27 @@ footer {
     color: #fff;
 }
 
+.searchbar-res {
+    display: none;
+}
+
 @media screen and (max-width: 600px) {
     main {
         padding: 10px;
+    }
+}
+
+@media screen and (max-width: 766px) {
+    .searchbar-res {
+        display: block;
+        margin-bottom: 8px;
+    }
+    #search-res {
+        padding: 7px;
+        border-radius: 5px;
+        border: none;
+    }
+    .form-inline {
+        display: none;
     }
 }

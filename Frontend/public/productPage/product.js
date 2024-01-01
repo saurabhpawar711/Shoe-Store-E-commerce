@@ -1,9 +1,145 @@
-
+const API_URL = 'https://lfwz6gudb7.execute-api.ap-south-1.amazonaws.com/Dev'
 toastr.options = {
     closeButton: true,
     timeOut: 1000,
     progressBar: true,
 };
+
+if (!token) {
+    const signUpBtn = document.getElementById('signUp');
+
+    signUpBtn.addEventListener('click', () => {
+        openModal('signupModal')
+    });
+}
+
+function openModal(modalId) {
+    const modal = document.getElementById(modalId);
+    modal.style.display = "flex";
+}
+
+function closeModal(modalId) {
+    const modal = document.getElementById(modalId);
+    modal.style.display = "none";
+}
+
+window.onclick = function (event) {
+    const modals = document.getElementsByClassName('modal');
+    for (let i = 0; i < modals.length; i++) {
+        let modal = modals[i];
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+};
+
+const checkAuthenticationForCart = async () => {
+    const token = localStorage.getItem('token');
+    try {
+        const response = await axios.get(`${API_URL}/auth/check-authentication`, { headers: { Authorization: token } });
+        if (response.data.success) {
+            window.location.href = '../cartPage/cart.html';
+        }
+    }
+    catch (err) {
+        if (err.response.data.error === 'Authentication required') {
+            openModal('signupModal');
+        }
+    }
+}
+
+const checkAuthenticationForOrder = async () => {
+    const token = localStorage.getItem('token');
+    try {
+        const response = await axios.get(`${API_URL}/auth/check-authentication`, { headers: { Authorization: token } });
+        if (response.data.success) {
+            window.location.href = '../ordersPage/order.html';
+        }
+    }
+    catch (err) {
+        if (err.response.data.error === 'Authentication required') {
+            openModal('signupModal');
+        }
+    }
+}
+
+const checkAuthenticationForWishlist = async () => {
+    const token = localStorage.getItem('token');
+    try {
+        const response = await axios.get(`${API_URL}/auth/check-authentication`, { headers: { Authorization: token } });
+        if (response.data.success) {
+            window.location.href = '../wishlistPage/wishlist.html';
+        }
+    }
+    catch (err) {
+        if (err.response.data.error === 'Authentication required') {
+            openModal('signupModal')
+        }
+    }
+}
+
+const user = document.querySelector('.user');
+
+user.addEventListener('click', () => {
+    const token = localStorage.getItem('token');
+    const signUpBtn = document.getElementById('signUp');
+    if (token) {
+        signUpBtn.style.display = 'none';
+    }
+})
+
+function isValidMobileNumber(number) {
+    const mobileNumberPattern = /^[6-9]\d{9}$/;
+    return mobileNumberPattern.test(number);
+}
+
+const numberInput = document.getElementById("number");
+const toggleInputs = async () => {
+    try {
+        const otpInput = document.querySelector(".otp");
+        const continueButton = document.querySelector(".continueBtn");
+        const loginButton = document.querySelector(".loginBtn");
+
+        if (isValidMobileNumber(numberInput.value)) {
+
+            otpInput.style.display = "block";
+            continueButton.style.display = 'none';
+            loginButton.style.display = 'block';
+
+            const number = {
+                number: numberInput.value
+            }
+            await axios.post(`${API_URL}/auth/otp`, number);
+        }
+        else {
+            throw new Error('Enter valid mobile number');
+        }
+    }
+    catch (err) {
+        toastr.error(err.message);
+    }
+}
+
+const login = async () => {
+    try {
+        const otp = document.getElementById('otp').value;
+        const loginDetails = {
+            number: numberInput.value,
+            otp: otp
+        }
+
+        const response = await axios.post(`${API_URL}/auth/login`, loginDetails);
+        if (response.data.success) {
+            closeModal('signupModal');
+            toastr.success('You have successfully logged in!');
+            localStorage.setItem('token', response.data.token)
+        }
+    }
+    catch (err) {
+        console.log(err);
+        toastr.error(err.response.data.error);
+    }
+}
 
 const addToCart = async (product) => {
     const token = localStorage.getItem('token');
@@ -11,7 +147,7 @@ const addToCart = async (product) => {
     const productDetail = {
         productId
     }
-    const response = await axios.post('http://localhost:3000/cart/add', productDetail, { headers: { Authorization: token } });
+    const response = await axios.post(`${API_URL}/cart/add`, productDetail, { headers: { Authorization: token } });
     toastr.success(response.data.message);
 }
 
@@ -22,7 +158,7 @@ const addToWishlist = async (product) => {
         const productDetail = {
             productId
         }
-        const response = await axios.post('http://localhost:3000/wishlist/add', productDetail, { headers: { Authorization: token } });
+        const response = await axios.post(`${API_URL}/wishlist/add`, productDetail, { headers: { Authorization: token } });
         toastr.success(response.data.message);
     }
     catch (err) {
@@ -89,7 +225,7 @@ window.addEventListener('DOMContentLoaded', async () => {
         const urlParams = new URLSearchParams(window.location.search);
         const productId = urlParams.get('productid');
 
-        const response = await axios.get(`http://localhost:3000/products/product?id=${productId}`)
+        const response = await axios.get(`${API_URL}/products/product?id=${productId}`)
 
         showProduct(response.data.productDetails);
     }
@@ -98,13 +234,15 @@ window.addEventListener('DOMContentLoaded', async () => {
     }
 })
 
-const searchButton = document.getElementById('searchBtn');
-const searchInput = document.getElementById('search');
+const searchForItem = async (e) => {
+    e.preventDefault();
 
-searchButton.addEventListener('click', async () => {
-    const searchFor = searchInput.value;
-    window.location.href = `/homePage/index.html?search=${searchFor}`;
-})
+    const searchInput = document.getElementById('search').value;
+    const searchresInput = document.getElementById('search-res').value;
+
+    const searchFor = searchInput ? searchInput : searchresInput;
+    window.location.href = `../homePage/index.html?page=1&search=${searchFor}`
+}
 
 if (token) {
     const logoutBtn = document.getElementById('logout');

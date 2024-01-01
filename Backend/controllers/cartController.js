@@ -1,4 +1,5 @@
 const Cart = require('../models/Cart');
+require('../models/Product');
 
 exports.addToCart = async (req, res) => {
     try {
@@ -51,6 +52,7 @@ exports.getCart = async (req, res) => {
         const cartDetails = await Cart.findOne({ user: userNumber }, 'items')
             .populate('items.product');
 
+        console.log(cartDetails);
         if (cartDetails.items.length === 0) {
             throw new Error('No items in cart');
         }
@@ -81,7 +83,7 @@ exports.changeQty = async (req, res) => {
         res.status(200).json({ success: true, cartDetails: cartDetails.items });
     }
     catch (err) {
-        res.status(500).json({error: 'Something went wrong while changing quantity'});
+        res.status(500).json({ error: 'Something went wrong while changing quantity' });
     }
 }
 

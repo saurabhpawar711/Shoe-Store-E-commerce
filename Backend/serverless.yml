@@ -1,0 +1,40 @@
+service: shoe-store
+
+provider:
+  name: aws
+  runtime: nodejs20.x
+  region: ap-south-1
+
+functions:
+  app:
+    handler: Backend/index.handler
+    events:
+      - http:
+          path: /
+          method: ANY
+          cors: true
+      - http:
+          path: /products
+          method: ANY
+          cors: true
+      - http:
+          path: /cart
+          method: ANY
+          cors: true
+      - http:
+          path: /wishlist
+          method: ANY
+          cors: true
+      - http:
+          path: /order
+          method: ANY
+          cors: true
+      - http:
+          path: /auth
+          method: ANY
+          cors: true
+      - http:
+          path: /payment
+          method: ANY
+          cors: true
+      

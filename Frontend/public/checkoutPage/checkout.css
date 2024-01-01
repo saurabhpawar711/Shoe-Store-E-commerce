@@ -146,20 +146,14 @@ body .navbar {
     border-radius: 5px;
 }
 
-.payment-options h3 {
-    font-size: 16px;
-    margin-bottom: 15px;
-}
-
 .payment-method {
-    margin-bottom: 10px;
     display: flex;
     align-items: center;
 }
 
 .payment-method label {
     font-size: 14px;
-    margin-left: 5px;
+    margin: 0 10px;
 }
 
 .payment-options button[type="submit"] {
